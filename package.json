@@ -4,6 +4,7 @@
   "description": "Cashier sub-service for myclinic",
   "main": "index.js",
   "scripts": {
+    "build": "webpack web-src/main.js static/bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/hangilc/myclinic-cashier/issues"
   },
-  "homepage": "https://github.com/hangilc/myclinic-cashier#readme"
+  "homepage": "https://github.com/hangilc/myclinic-cashier#readme",
+  "devDependencies": {
+    "conti": "^1.3.4",
+    "hogan.js": "^3.0.2",
+    "myclinic-consts": "^1.0.0",
+    "myclinic-service-api": "^1.0.6",
+    "myclinic-web": "^1.0.2",
+    "raw-loader": "^0.5.1",
+    "webpack": "^1.13.3"
+  }
 }

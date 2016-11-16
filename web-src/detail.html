@@ -1,0 +1,36 @@
+<div class="detail">
+<div style="font-size:20px">
+	{{#patient}}
+		[{{patient_id}}]
+		{{last_name}} {{first_name}}
+	{{/patient}}
+</div>
+<table>
+<tbody>
+{{#sections}}
+	<tr>
+		<td colspan="3" style="font-weight:bold">{{name}}</td>
+	</tr>
+	{{#items}}
+		<tr>
+			<td style="width:2em">&nbsp;</td>
+			<td width="width:12em">{{label}}</td>
+			<td style="width:7em; text-align:right">
+				{{tanka}}x{{count}} = {{total}} 点
+			</td>
+		</tr>
+	{{/items}}
+{{/sections}}
+	<tr>
+		<td colspan="3" style="text-align:right;border-top:double #999">
+			総点 {{total_ten}} 点
+		</td>
+	</tr>
+</tbody>
+</table>
+<div style="font-size:20px">
+	請求額： <span mc-name="charge-disp">{{charge}}</span> 円 （負担 {{futan_wari}} 割）
+	<button class="goto-receipt-button">次へ</button>
+	<button class="goto-start-button">戻る</button>
+</div>
+</div>

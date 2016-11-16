@@ -1,0 +1,10 @@
+<div class="wqueue">
+	{{#list}}
+		<div class="patient">
+			[{{patient_id_rep}}]
+			{{last_name}} {{first_name}} 
+			({{last_name_yomi}} {{first_name_yomi}})
+			<button data-visit-id="{{visit_id}}" class="start-cashier-button">会計</button>
+		</div>
+	{{/list}}
+</div>

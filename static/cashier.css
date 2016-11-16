@@ -1,0 +1,12 @@
+#main .wqueue { 
+	font-size: 26px;	
+}
+
+#main .wqueue .patient {
+	margin: 6px 0;
+}
+
+#main .wqueue button {
+	vertical-align: center;
+	font-size: 20px;
+}
