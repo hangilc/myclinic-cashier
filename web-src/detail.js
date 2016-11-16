@@ -75,7 +75,7 @@ exports.render = function(dom, visitId){
 function bindGotoReceipt(dom, patient, visit, meisai){
 	dom.querySelector(".goto-receipt-button").addEventListener("click", function(){
 		var data = makeReceiptData(patient, visit, meisai);
-		Receipt.render(dom, data);
+		Receipt.render(dom, data, visit.visit_id);
 	});
 }
 

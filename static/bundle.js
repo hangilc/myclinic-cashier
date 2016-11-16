@@ -2383,7 +2383,7 @@
 	function bindGotoReceipt(dom, patient, visit, meisai){
 		dom.querySelector(".goto-receipt-button").addEventListener("click", function(){
 			var data = makeReceiptData(patient, visit, meisai);
-			Receipt.render(dom, data);
+			Receipt.render(dom, data, visit.visit_id);
 		});
 	}
 
@@ -2529,23 +2529,60 @@
 	var tmplSrc = __webpack_require__(16);
 	var tmpl = hogan.compile(tmplSrc);
 	var ReceiptForm = __webpack_require__(17).Receipt;
+	var Detail = __webpack_require__(12);
 
-	exports.render = function(dom, data){
+	exports.render = function(dom, data, visitId){
 		var html = tmpl.render({
 
 		});
 		dom.innerHTML = html;
 		var ops = new ReceiptForm(data).getOps();
+		bindGotoDetail(dom, visitId);
+		bindPrint(dom, ops);
 		var svg = drawerToSvg(ops, {width: "150mm", height: "106mm", viewBox: "0 0 150 106"});
 		dom.querySelector(".preview").appendChild(svg);
 	};
+
+	function bindGotoDetail(dom, visitId){
+		dom.querySelector(".goto-detail").addEventListener("click", function(event){
+			Detail.render(dom, visitId);
+		});
+	}
+
+	var settingKey = "receipt-printer-setting";
+
+	function getPrinterSetting(key){
+		return window.localStorage.getItem(key);
+	}
+
+	function setPrinterSetting(key, name){
+		window.localStorage.setItem(key, name);
+	}
+
+	function removePrinterSetting(key){
+		window.localStorage.removeItem(key);
+	}
+
+	function bindPrint(dom, ops){
+		dom.querySelector(".print").addEventListener("click", function(event){
+			fetch("/printer/print", {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json"
+				},
+				body: JSON.stringify({
+					pages: [ops]	
+				})
+			});
+		});
+	}
 
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"receipt\">\r\n<div class=\"preview\"></div>\r\n</div>\r\n"
+	module.exports = "<div class=\"receipt\">\r\n<div class=\"preview\"></div>\r\n<div>\r\n<button class=\"print\" style=\"font-size:16px\">印刷</button>\r\n<a class=\"goto-detail\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">戻る</a>\r\n</div>\r\n<div style=\"color:#666;font-size:12px;margin:10px;\">\r\n\tプリンター：{{current_printer_setting}}\r\n\t<a href=\"javascript:void(0)\" style=\"color:#666\">プリンター選択</a>\r\n\t<a href=\"javascript:void(0)\" style=\"color:#666\">プリンター管理</a>\r\n</div>\r\n</div>\r\n"
 
 /***/ },
 /* 17 */

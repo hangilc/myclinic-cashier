@@ -25,7 +25,7 @@
     "myclinic-drawer-forms": "^1.0.7",
     "myclinic-service-api": "^1.0.6",
     "myclinic-util": "^1.0.0",
-    "myclinic-web": "^1.0.2",
+    "myclinic-web": "^1.0.3",
     "raw-loader": "^0.5.1",
     "webpack": "^1.13.3"
   }
