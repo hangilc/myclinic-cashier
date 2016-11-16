@@ -7,6 +7,7 @@ var mConsts = require("myclinic-consts");
 var Wqueue = require("./wqueue.js");
 var Receipt = require("./receipt.js");
 var kanjidate = require("kanjidate");
+var mUtil = require("myclinic-util");
 
 exports.render = function(dom, visitId){
 	var meisai, visit, patient;
@@ -22,7 +23,7 @@ exports.render = function(dom, visitId){
 			});
 		},
 		function(done){
-			service.getVisit(visitId, function(err, result){
+			service.getVisitWithFullHoken(visitId, function(err, result){
 				if( err ){
 					done(err);
 					return;
@@ -73,7 +74,8 @@ exports.render = function(dom, visitId){
 
 function bindGotoReceipt(dom, patient, visit, meisai){
 	dom.querySelector(".goto-receipt-button").addEventListener("click", function(){
-		Receipt.render(dom);
+		var data = makeReceiptData(patient, visit, meisai);
+		Receipt.render(dom, data);
 	});
 }
 
@@ -101,9 +103,9 @@ function makeReceiptData(patient, visit, meisai){
 		"名前": patient.last_name + patient.first_name,
 		"領収金額": meisai.charge,
 		"診察日": dateToKanji(visit.v_datetime),
-		"発効日": dateToKanji(util.today()),
+		"発効日": dateToKanji(new Date()),
 		"患者番号": patient.patient_id,
-		"保険種別": util.hokenRep(visit),
+		"保険種別": mUtil.hokenRep(visit),
 		"負担割合": meisai.futanWari,
 		"初・再診料": subtotal(sects["初・再診料"]),
 		"医学管理等": subtotal(sects["医学管理等"]),

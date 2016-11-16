@@ -1,5 +1,5 @@
 <div class="detail">
-<div style="font-size:20px">
+<div style="font-size:20px;margin:16px 0">
 	{{#patient}}
 		[{{patient_id}}]
 		{{last_name}} {{first_name}}
@@ -26,10 +26,15 @@
 			総点 {{total_ten}} 点
 		</td>
 	</tr>
+	<tr>
+		<td colspan="3" style="text-align:right">
+			(負担 {{futan_wari}} 割)
+		</td>
+	</tr>
 </tbody>
 </table>
 <div style="font-size:20px">
-	請求額： <span mc-name="charge-disp">{{charge}}</span> 円 （負担 {{futan_wari}} 割）
+	請求額： <span mc-name="charge-disp">{{charge}}</span> 円 
 	<button class="goto-receipt-button" style="font-size:16px">次へ</button>
 	<a href="javascript:void(0)" class="goto-start-button" 
 		style="color:#666;font-size:16px">戻る</a>
