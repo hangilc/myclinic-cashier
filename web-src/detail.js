@@ -5,6 +5,8 @@ var service = require("myclinic-service-api");
 var conti = require("conti");
 var mConsts = require("myclinic-consts");
 var Wqueue = require("./wqueue.js");
+var Receipt = require("./receipt.js");
+var kanjidate = require("kanjidate");
 
 exports.render = function(dom, visitId){
 	var meisai, visit, patient;
@@ -64,13 +66,15 @@ exports.render = function(dom, visitId){
 			patient: patient
 		});
 		dom.innerHTML = html;
-		bindGotoReceipt(dom);
+		bindGotoReceipt(dom, patient, visit, meisai);
 		bindGotoStart(dom);
 	});
 };
 
-function bindGotoReceipt(dom){
-	console.log("goto receipt");
+function bindGotoReceipt(dom, patient, visit, meisai){
+	dom.querySelector(".goto-receipt-button").addEventListener("click", function(){
+		Receipt.render(dom);
+	});
 }
 
 function bindGotoStart(dom){
@@ -79,4 +83,41 @@ function bindGotoStart(dom){
 	});
 }
 
+function dateToKanji(d){
+	return kanjidate.format(kanjidate.f2, d);
+}
 
+function subtotal(items){
+	var total = 0;
+	items.forEach(function(item){
+		total += item.tanka * item.count;
+	});
+	return total;
+}
+
+function makeReceiptData(patient, visit, meisai){
+	var sects = meisai.meisai;
+	return {
+		"名前": patient.last_name + patient.first_name,
+		"領収金額": meisai.charge,
+		"診察日": dateToKanji(visit.v_datetime),
+		"発効日": dateToKanji(util.today()),
+		"患者番号": patient.patient_id,
+		"保険種別": util.hokenRep(visit),
+		"負担割合": meisai.futanWari,
+		"初・再診料": subtotal(sects["初・再診料"]),
+		"医学管理等": subtotal(sects["医学管理等"]),
+		"在宅医療": subtotal(sects["在宅医療"]),
+		"検査": subtotal(sects["検査"]),
+		"画像診断": subtotal(sects["画像診断"]),
+		"投薬": subtotal(sects["投薬"]),
+		"注射": subtotal(sects["注射"]),
+		"処置": subtotal(sects["処置"]),
+		"その他": subtotal(sects["その他"]),
+		"診療総点数": meisai.totalTen,
+		"保険外１": "", 
+		"保険外２": "", 
+		"保険外３": "", 
+		"保険外４": ""
+	};
+}

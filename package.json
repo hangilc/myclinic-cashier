@@ -20,6 +20,7 @@
   "devDependencies": {
     "conti": "^1.3.4",
     "hogan.js": "^3.0.2",
+    "kanjidate": "^1.1.0",
     "myclinic-consts": "^1.0.0",
     "myclinic-service-api": "^1.0.6",
     "myclinic-web": "^1.0.2",
