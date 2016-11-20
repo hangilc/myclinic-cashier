@@ -1,81 +1,42 @@
 var hogan = require("hogan.js");
 var tmplSrc = require("raw!./detail.html");
 var tmpl = hogan.compile(tmplSrc);
-var service = require("myclinic-service-api");
-var conti = require("conti");
 var mConsts = require("myclinic-consts");
 var Wqueue = require("./wqueue.js");
 var Receipt = require("./receipt.js");
 var kanjidate = require("kanjidate");
 var mUtil = require("myclinic-util");
 
-exports.render = function(dom, visitId){
-	var meisai, visit, patient;
-	conti.exec([
-		function(done){
-			service.calcMeisai(visitId, function(err, result){
-				if( err ){
-					done(err);
-					return;
-				}
-				meisai = result;
-				done();
-			});
-		},
-		function(done){
-			service.getVisitWithFullHoken(visitId, function(err, result){
-				if( err ){
-					done(err);
-					return;
-				}
-				visit = result;
-				done();
-			});
-		},
-		function(done){
-			service.getPatient(visit.patient_id, function(err, result){
-				if( err ){
-					done(err);
-					return;
-				}
-				patient = result;
-				done();
-			});
-		}
-	], function(err){
-		if( err ){
-			alert(err);
+exports.render = function(dom, sess){
+	var meisai = sess.meisai, 
+	    visit = sess.visit, 
+		patient = sess.patient;
+	var sections = [];
+	mConsts.MeisaiSections.forEach(function(sect){
+		var items = meisai.meisai[sect];
+		if( items.length === 0 ){
 			return;
 		}
-		console.log(meisai);
-		var sections = [];
-		mConsts.MeisaiSections.forEach(function(sect){
-			var items = meisai.meisai[sect];
-			if( items.length === 0 ){
-				return;
-			}
-			sections.push({
-				name: sect,
-				items: items,
-			});
+		sections.push({
+			name: sect,
+			items: items,
 		});
-		var html = tmpl.render({
-			sections: sections,
-			total_ten: meisai.totalTen.toLocaleString(),
-			charge: meisai.charge.toLocaleString(),
-			futan_wari: meisai.futanWari,
-			patient: patient
-		});
-		dom.innerHTML = html;
-		bindGotoReceipt(dom, patient, visit, meisai);
-		bindGotoStart(dom);
 	});
+	var html = tmpl.render({
+		sections: sections,
+		total_ten: meisai.totalTen.toLocaleString(),
+		charge: meisai.charge.toLocaleString(),
+		futan_wari: meisai.futanWari,
+		patient: patient
+	});
+	dom.innerHTML = html;
+	bindGotoReceipt(dom, sess);
+	bindGotoStart(dom);
 };
 
-function bindGotoReceipt(dom, patient, visit, meisai){
+function bindGotoReceipt(dom, sess){
 	dom.querySelector(".goto-receipt-button").addEventListener("click", function(){
-		var data = makeReceiptData(patient, visit, meisai);
-		Receipt.render(dom, data, visit.visit_id);
+		Receipt.render(dom, sess);
 	});
 }
 

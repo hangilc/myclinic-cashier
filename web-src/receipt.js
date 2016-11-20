@@ -5,6 +5,10 @@ var ReceiptForm = require("myclinic-drawer-forms").Receipt;
 var Detail = require("./detail.js");
 var settingsTmplSrc = require("raw!./printer-settings.html");
 var settingsTmpl = hogan.compile(settingsTmplSrc);
+var Finish = require("./finish.js");
+var Wqueue = require("./wqueue.js");
+var kanjidate = require("kanjidate");
+var mUtil = require("myclinic-util");
 
 var settingKey = "receipt-printer-setting";
 
@@ -20,14 +24,55 @@ function removePrinterSetting(key){
 	window.localStorage.removeItem(key);
 }
 
-exports.render = function(dom, data, visitId){
+function dateToKanji(d){
+	return kanjidate.format(kanjidate.f2, d);
+}
+
+function subtotal(items){
+	var total = 0;
+	items.forEach(function(item){
+		total += item.tanka * item.count;
+	});
+	return total;
+}
+
+function makeReceiptData(patient, visit, meisai){
+	var sects = meisai.meisai;
+	return {
+		"名前": patient.last_name + patient.first_name,
+		"領収金額": meisai.charge,
+		"診察日": dateToKanji(visit.v_datetime),
+		"発効日": dateToKanji(new Date()),
+		"患者番号": patient.patient_id,
+		"保険種別": mUtil.hokenRep(visit),
+		"負担割合": meisai.futanWari,
+		"初・再診料": subtotal(sects["初・再診料"]),
+		"医学管理等": subtotal(sects["医学管理等"]),
+		"在宅医療": subtotal(sects["在宅医療"]),
+		"検査": subtotal(sects["検査"]),
+		"画像診断": subtotal(sects["画像診断"]),
+		"投薬": subtotal(sects["投薬"]),
+		"注射": subtotal(sects["注射"]),
+		"処置": subtotal(sects["処置"]),
+		"その他": subtotal(sects["その他"]),
+		"診療総点数": meisai.totalTen,
+		"保険外１": "", 
+		"保険外２": "", 
+		"保険外３": "", 
+		"保険外４": ""
+	};
+}
+exports.render = function(dom, sess){
 	var html = tmpl.render({
 		current_printer_setting: getPrinterSetting(settingKey) || "(設定なし)"
 	});
 	dom.innerHTML = html;
+	var data = makeReceiptData(sess.patient, sess.visit, sess.meisai);
 	var ops = new ReceiptForm(data).getOps();
-	bindGotoDetail(dom, visitId);
-	bindPrint(dom, ops);
+	bindPrint(dom, sess, ops);
+	bindNoPrint(dom, sess);
+	bindGotoDetail(dom, sess);
+	bindGotoStart(dom);
 	bindSelectPrinter(dom);
 	var svg = drawerToSvg(ops, {width: "150mm", height: "106mm", viewBox: "0 0 150 106"});
 	dom.querySelector(".preview").appendChild(svg);
@@ -39,7 +84,7 @@ function bindGotoDetail(dom, visitId){
 	});
 }
 
-function bindPrint(dom, ops){
+function bindPrint(dom, sess, ops){
 	dom.querySelector(".print").addEventListener("click", function(event){
 		fetch("/printer/print", {
 			method: "POST",
@@ -50,7 +95,25 @@ function bindPrint(dom, ops){
 				pages: [ops],
 				setting: getPrinterSetting(settingKey)
 			})
+		})
+		.then(function(){
+			Finish.render(dom, sess);
+		})
+		.catch(function(err){
+			alert(err);
 		});
+	});
+}
+
+function bindNoPrint(dom, sess){
+	dom.querySelector(".no-print").addEventListener("click", function(event){
+		Finish.render(dom, sess);
+	});
+}
+
+function bindGotoStart(dom){
+	dom.querySelector(".goto-start").addEventListener("click", function(event){
+		Wqueue.render(dom);
 	});
 }
 

@@ -4,6 +4,7 @@ var tmpl = hogan.compile(tmplSrc);
 var service = require("myclinic-service-api");
 var conti = require("conti");
 var Detail = require("./detail.js");
+var Session = require("./session.js");
 
 function padLeft(num, npad){
 	var ch = "0";
@@ -39,7 +40,13 @@ function bindStart(dom){
 		var b = list[i];
 		b.addEventListener("click", function(event){
 			var visitId = event.target.getAttribute("data-visit-id");
-			Detail.render(dom, visitId);
+			Session.fetch(visitId, function(err, sess){
+				if( err ){
+					alert(err);
+					return;
+				}
+				Detail.render(dom, sess);
+			});
 		});
 	}
 }

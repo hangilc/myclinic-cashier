@@ -1,0 +1,16 @@
+<div>
+	[{{patient_id}}] {{last_name}} {{first_name}} ({{last_name_yomi}} {{first_name_yomi}})
+	{{birthday_rep}}
+	{{sex_rep}}
+</div>
+<div>
+	{{#seikyuu}}
+		請求額：{{seikyuu_gaku}}円
+	{{/seikyuu}}
+	{{#shuusei}}
+		修正額（請求）： {{shuusei_gaku}}円
+	{{/shuusei}}
+</div>
+<div>
+	<button class="done">終了</button>
+</div>
