@@ -1,12 +1,13 @@
 <div class="receipt">
-<div class="preview"></div>
-<div>
-<button class="print" style="font-size:16px">印刷</button>
-<a class="goto-detail" href="javascript:void(0)" style="font-size:16px;color:#666">戻る</a>
-</div>
-<div style="color:#666;font-size:12px;margin:10px;">
-	プリンター：{{current_printer_setting}}
-	<a href="javascript:void(0)" style="color:#666">プリンター選択</a>
-	<a href="javascript:void(0)" style="color:#666">プリンター管理</a>
-</div>
+	<div class="preview"></div>
+	<div>
+	<button class="print" style="font-size:16px">印刷</button>
+	<a class="goto-detail" href="javascript:void(0)" style="font-size:16px;color:#666">戻る</a>
+	</div>
+	<div style="color:#666;font-size:12px;margin:10px;">
+		プリンター：<span class="current-setting-disp">{{current_printer_setting}}</span>
+		<a href="javascript:void(0)" style="color:#666" class="select-printer">プリンター選択</a>
+		<a href="/printer" target="printer" style="color:#666">プリンター管理</a>
+	</div>
+	<div class="printer-settings"></div>
 </div>

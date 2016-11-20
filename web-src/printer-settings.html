@@ -1,0 +1,8 @@
+<form onsubmit="return false;">
+	プリンター選択：
+	<input type="radio" name="setting" value="">(設定なし)
+	{{#list}}
+		<input type="radio" name="setting" value="{{.}}">{{.}}
+	{{/list}}
+	<button class="close">閉じる</button>
+</form>

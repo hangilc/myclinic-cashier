@@ -2530,24 +2530,8 @@
 	var tmpl = hogan.compile(tmplSrc);
 	var ReceiptForm = __webpack_require__(17).Receipt;
 	var Detail = __webpack_require__(12);
-
-	exports.render = function(dom, data, visitId){
-		var html = tmpl.render({
-
-		});
-		dom.innerHTML = html;
-		var ops = new ReceiptForm(data).getOps();
-		bindGotoDetail(dom, visitId);
-		bindPrint(dom, ops);
-		var svg = drawerToSvg(ops, {width: "150mm", height: "106mm", viewBox: "0 0 150 106"});
-		dom.querySelector(".preview").appendChild(svg);
-	};
-
-	function bindGotoDetail(dom, visitId){
-		dom.querySelector(".goto-detail").addEventListener("click", function(event){
-			Detail.render(dom, visitId);
-		});
-	}
+	var settingsTmplSrc = __webpack_require__(29);
+	var settingsTmpl = hogan.compile(settingsTmplSrc);
 
 	var settingKey = "receipt-printer-setting";
 
@@ -2563,6 +2547,25 @@
 		window.localStorage.removeItem(key);
 	}
 
+	exports.render = function(dom, data, visitId){
+		var html = tmpl.render({
+			current_printer_setting: getPrinterSetting(settingKey) || "(設定なし)"
+		});
+		dom.innerHTML = html;
+		var ops = new ReceiptForm(data).getOps();
+		bindGotoDetail(dom, visitId);
+		bindPrint(dom, ops);
+		bindSelectPrinter(dom);
+		var svg = drawerToSvg(ops, {width: "150mm", height: "106mm", viewBox: "0 0 150 106"});
+		dom.querySelector(".preview").appendChild(svg);
+	};
+
+	function bindGotoDetail(dom, visitId){
+		dom.querySelector(".goto-detail").addEventListener("click", function(event){
+			Detail.render(dom, visitId);
+		});
+	}
+
 	function bindPrint(dom, ops){
 		dom.querySelector(".print").addEventListener("click", function(event){
 			fetch("/printer/print", {
@@ -2571,18 +2574,109 @@
 					"Content-type": "application/json"
 				},
 				body: JSON.stringify({
-					pages: [ops]	
+					pages: [ops],
+					setting: getPrinterSetting(settingKey)
 				})
 			});
 		});
 	}
+
+	function fetchPrinterSettings(cb){
+		fetch("/printer/setting")
+		.then(function(response){
+			if( response.ok ){
+				response.json().then(function(json){
+					cb(undefined, json);
+				})
+				.catch(function(err){
+					cb(err);
+				});
+			} else {
+				response.text()
+				.then(function(text){
+					cb(text);
+				}).catch(function(err){
+					cb(err);
+				});
+			}
+		})
+		.catch(function(err){
+			cb(err);
+		});
+	}
+
+	function checkCurrentPrinter(wrapper){
+		var current = getPrinterSetting(settingKey);
+		var nodes, i, n;
+		if( current ){
+			nodes = wrapper.querySelectorAll("input[type=radio][name=setting]");
+			n = nodes.length;
+			console.log("n", n);
+			for(i=0;i<n;i++){
+				console.log("check", nodes[i].value, current);
+				if( nodes[i].value === current ){
+					nodes[i].checked = true;
+					break;
+				}
+			}
+		} else {
+			wrapper.querySelector("input[type=radio][name=setting][value='']").checked = true;
+		}
+	}
+
+	function updateCurrentPrinter(dom){
+		var current = getPrinterSetting(settingKey);
+		var el = dom.querySelector(".current-setting-disp");
+		el.innerHTML = "";
+		el.appendChild(document.createTextNode(current || "(設定なし)"));
+	}
+
+	function bindSelectPrinter(dom){
+		var link = dom.querySelector(".select-printer");
+		link.addEventListener("click", function(event){
+			var settingsDom = dom.querySelector(".printer-settings");
+			if( settingsDom.innerHTML !== "" ){
+				settingsDom.innerHTML = "";
+			} else {
+				fetchPrinterSettings(function(err, result){
+					if( err ){
+						alert(err);
+						return;
+					}
+					var html = settingsTmpl.render({ list: result });
+					settingsDom.innerHTML = html;
+					checkCurrentPrinter(settingsDom);
+					settingsDom.querySelector(".close").addEventListener("click", function(event){
+						settingsDom.innerHTML = "";
+					});
+					var nodes, node, i, n;
+					nodes = settingsDom.querySelectorAll("input[type=radio][name=setting]");
+					n = nodes.length;
+					for(i=0;i<n;i++){
+						node = nodes[i];
+						node.addEventListener("change", function(event){
+							var value = event.target.value;
+							if( value ){
+								setPrinterSetting(settingKey, value);
+							} else {
+								removePrinterSetting(settingKey);
+							}
+							updateCurrentPrinter(dom);
+							settingsDom.innerHTML = "";
+						});
+					}
+				});
+			}
+		});
+	}
+
 
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"receipt\">\r\n<div class=\"preview\"></div>\r\n<div>\r\n<button class=\"print\" style=\"font-size:16px\">印刷</button>\r\n<a class=\"goto-detail\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">戻る</a>\r\n</div>\r\n<div style=\"color:#666;font-size:12px;margin:10px;\">\r\n\tプリンター：{{current_printer_setting}}\r\n\t<a href=\"javascript:void(0)\" style=\"color:#666\">プリンター選択</a>\r\n\t<a href=\"javascript:void(0)\" style=\"color:#666\">プリンター管理</a>\r\n</div>\r\n</div>\r\n"
+	module.exports = "<div class=\"receipt\">\r\n\t<div class=\"preview\"></div>\r\n\t<div>\r\n\t<button class=\"print\" style=\"font-size:16px\">印刷</button>\r\n\t<a class=\"goto-detail\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">戻る</a>\r\n\t</div>\r\n\t<div style=\"color:#666;font-size:12px;margin:10px;\">\r\n\t\tプリンター：<span class=\"current-setting-disp\">{{current_printer_setting}}</span>\r\n\t\t<a href=\"javascript:void(0)\" style=\"color:#666\" class=\"select-printer\">プリンター選択</a>\r\n\t\t<a href=\"/printer\" target=\"printer\" style=\"color:#666\">プリンター管理</a>\r\n\t</div>\r\n\t<div class=\"printer-settings\"></div>\r\n</div>\r\n"
 
 /***/ },
 /* 17 */
@@ -5126,6 +5220,12 @@
 			return "公費負担";
 	}
 
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "<form onsubmit=\"return false;\">\r\n\tプリンター選択：\r\n\t<input type=\"radio\" name=\"setting\" value=\"\">(設定なし)\r\n\t{{#list}}\r\n\t\t<input type=\"radio\" name=\"setting\" value=\"{{.}}\">{{.}}\r\n\t{{/list}}\r\n\t<button class=\"close\">閉じる</button>\r\n</form>\r\n"
 
 /***/ }
 /******/ ]);
