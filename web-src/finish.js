@@ -3,6 +3,8 @@ var tmplSrc = require("raw!./finish.html");
 var tmpl = hogan.compile(tmplSrc);
 var kanjidate = require("kanjidate");
 var moment = require("moment");
+var service = require("myclinic-service-api");
+var Start = require("./wqueue.js");
 
 function calcAge(birthday){
 	return moment().diff(moment(birthday), "years");
@@ -46,11 +48,18 @@ exports.render = function(dom, sess){
 		data.seikyuu_gaku = meisai.charge;
 	}
 	dom.innerHTML = tmpl.render(data);
-	bindDone(dom);
+	bindDone(dom, sess);
 };
 
-function bindDone(dom){
+function bindDone(dom, sess){
 	dom.querySelector(".done").addEventListener("click", function(){
-		console.log("done");
+		var paytime = moment().format("YYYY-MM-DD HH:mm:ss");
+		service.finishCashier(sess.visitId, sess.meisai.charge, paytime, function(err){
+			if( err ){
+				alert(err);
+				return;
+			}
+			Start.render(dom);
+		});
 	});
 }

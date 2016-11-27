@@ -5,6 +5,7 @@ var service = require("myclinic-service-api");
 var conti = require("conti");
 var Detail = require("./detail.js");
 var Session = require("./session.js");
+var moment = require("moment");
 
 function padLeft(num, npad){
 	var ch = "0";
@@ -39,7 +40,7 @@ function bindStart(dom){
 	for(i=0;i<n;i++){
 		var b = list[i];
 		b.addEventListener("click", function(event){
-			var visitId = event.target.getAttribute("data-visit-id");
+			var visitId = +event.target.getAttribute("data-visit-id");
 			Session.fetch(visitId, function(err, sess){
 				if( err ){
 					alert(err);
