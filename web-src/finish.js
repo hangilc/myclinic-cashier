@@ -28,7 +28,7 @@ function sexRep(sex){
 }
 
 exports.render = function(dom, sess){
-	console.log(sess.meisai);
+	console.log(sess);
 	var patient = sess.patient;
 	var data = {
 		patient_id: patient.patient_id,
@@ -40,15 +40,22 @@ exports.render = function(dom, sess){
 		sex_rep: sexRep(patient.sex),
 	};
 	var meisai = sess.meisai;
+	data.seikyuu_gaku = meisai.charge;
 	if( sess.payments.length > 0 ){
 		data.shuusei = true;
-
+		data.prev_payment = sess.payments[0].amount;
+		data.shuusei_gaku = meisai.charge - sess.payments[0].amount;
+		data.diff_abs = Math.abs(data.shuusei_gaku);
+		data.tsuika_choushuu = data.shuusei_gaku > 0;
+		data.no_diff = data.shuusei_gaku === 0;
+		data.henkin = data.shuusei_gaku < 0;
 	} else {
 		data.seikyuu = true;
-		data.seikyuu_gaku = meisai.charge;
 	}
+	console.log(data);
 	dom.innerHTML = tmpl.render(data);
 	bindDone(dom, sess);
+	bindFinish(dom);
 };
 
 function bindDone(dom, sess){
@@ -63,3 +70,10 @@ function bindDone(dom, sess){
 		});
 	});
 }
+
+function bindFinish(dom){
+	dom.querySelector(".cmd-cancel").addEventListener("click", function(){
+		Start.render(dom);
+	});
+}
+
