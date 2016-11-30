@@ -5101,7 +5101,7 @@
 /* 29 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n\t[{{patient_id}}] {{last_name}} {{first_name}} ({{last_name_yomi}} {{first_name_yomi}})\r\n\t{{birthday_rep}}\r\n\t{{sex_rep}}\r\n</div>\r\n<div>\r\n\t{{#seikyuu}}\r\n\t\t<div>請求額：{{seikyuu_gaku}}円</div>\r\n\t{{/seikyuu}}\r\n\t{{#shuusei}}\r\n\t\t<div>請求額：{{seikyuu_gaku}}円</div>\r\n\t\t<div>前回の徴収額：{{prev_payment}}円</div>\r\n\t\t<div>修正額：{{diff_abs}}円\r\n\t\t\t{{#tsuika_choushuu}}追加徴収{{/tsuika_choushuu}}\r\n\t\t\t{{#no_diff}}（修正なし）{{/no_diff}}\r\n\t\t\t{{#henkin}}返金{{/henkin}}\r\n\t\t</div>\r\n\t{{/shuusei}}\r\n</div>\r\n<div>\r\n\t<button class=\"done\">終了</button>\r\n\t<a href=\"javascript:void(0)\" class=\"cmd-link cmd-cancel\">キャンセル</a>\r\n</div>\r\n"
+	module.exports = "<div>\r\n\t[{{patient_id}}] {{last_name}} {{first_name}} ({{last_name_yomi}} {{first_name_yomi}})\r\n\t{{birthday_rep}}\r\n\t{{sex_rep}}\r\n</div>\r\n<div>\r\n\t{{#seikyuu}}\r\n\t\t<div>請求額：<b>{{seikyuu_gaku}}円</b></div>\r\n\t{{/seikyuu}}\r\n\t{{#shuusei}}\r\n\t\t<div>請求額： {{seikyuu_gaku}}円</div>\r\n\t\t<div>前回の徴収額： {{prev_payment}}円</div>\r\n\t\t<div>修正額：\r\n\t\t\t{{#tsuika_choushuu}}<b>{{diff_abs}}円</b> 追加徴収{{/tsuika_choushuu}}\r\n\t\t\t{{#no_diff}}（修正なし）{{/no_diff}}\r\n\t\t\t{{#henkin}}<b style=\"color:red\">{{diff_abs}}円</b> 返金{{/henkin}}\r\n\t\t</div>\r\n\t{{/shuusei}}\r\n</div>\r\n<div>\r\n\t<button class=\"done\">終了</button>\r\n\t<a href=\"javascript:void(0)\" class=\"cmd-link cmd-cancel\">キャンセル</a>\r\n</div>\r\n"
 
 /***/ },
 /* 30 */

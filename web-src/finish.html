@@ -5,15 +5,15 @@
 </div>
 <div>
 	{{#seikyuu}}
-		<div>請求額：{{seikyuu_gaku}}円</div>
+		<div>請求額：<b>{{seikyuu_gaku}}円</b></div>
 	{{/seikyuu}}
 	{{#shuusei}}
-		<div>請求額：{{seikyuu_gaku}}円</div>
-		<div>前回の徴収額：{{prev_payment}}円</div>
-		<div>修正額：{{diff_abs}}円
-			{{#tsuika_choushuu}}追加徴収{{/tsuika_choushuu}}
+		<div>請求額： {{seikyuu_gaku}}円</div>
+		<div>前回の徴収額： {{prev_payment}}円</div>
+		<div>修正額：
+			{{#tsuika_choushuu}}<b>{{diff_abs}}円</b> 追加徴収{{/tsuika_choushuu}}
 			{{#no_diff}}（修正なし）{{/no_diff}}
-			{{#henkin}}返金{{/henkin}}
+			{{#henkin}}<b style="color:red">{{diff_abs}}円</b> 返金{{/henkin}}
 		</div>
 	{{/shuusei}}
 </div>
