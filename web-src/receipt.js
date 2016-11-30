@@ -1,7 +1,7 @@
 var hogan = require("hogan.js");
 var tmplSrc = require("raw!./receipt.html");
 var tmpl = hogan.compile(tmplSrc);
-var ReceiptForm = require("myclinic-drawer-forms").Receipt;
+var ReceiptForm = require("../lib/receipt.js");
 var Detail = require("./detail.js");
 var settingsTmplSrc = require("raw!./printer-settings.html");
 var settingsTmpl = hogan.compile(settingsTmplSrc);
@@ -59,7 +59,9 @@ function makeReceiptData(patient, visit, meisai){
 		"保険外１": "", 
 		"保険外２": "", 
 		"保険外３": "", 
-		"保険外４": ""
+		"保険外４": "",
+		"clinic-name": config["clinic-name"],
+		"clinic-addr": config["clinic-addr"]
 	};
 }
 exports.render = function(dom, sess){

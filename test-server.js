@@ -4,7 +4,7 @@ var subapp = require("./index.js");
 var sub = {
 	name: "cashier",
 	module: subapp,
-	config: {}
+	configKey: "cashier"
 };
 
 web.cmd.runFromCommand([sub], 9003);
