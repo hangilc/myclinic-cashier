@@ -1313,6 +1313,7 @@
 			var html = tmpl.render({list: list});
 			dom.innerHTML = html;
 			bindStart(dom);
+			bindReload(dom);
 		});
 	};
 
@@ -1332,6 +1333,12 @@
 				});
 			});
 		}
+	}
+
+	function bindReload(dom){
+		dom.querySelector(".cmd-reload").addEventListener("click", function(){
+			exports.render(dom);
+		});
 	}
 
 
@@ -2143,7 +2150,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"wqueue\">\r\n\t{{#list}}\r\n\t\t<div class=\"patient\">\r\n\t\t\t[{{patient_id_rep}}]\r\n\t\t\t{{last_name}} {{first_name}} \r\n\t\t\t({{last_name_yomi}} {{first_name_yomi}})\r\n\t\t\t<button data-visit-id=\"{{visit_id}}\" class=\"start-cashier-button\">会計</button>\r\n\t\t</div>\r\n\t{{/list}}\r\n</div>\r\n"
+	module.exports = "<div class=\"wqueue\">\r\n\t<button class=\"cmd-reload\">更新</button>\r\n\t{{#list}}\r\n\t\t<div class=\"patient\">\r\n\t\t\t[{{patient_id_rep}}]\r\n\t\t\t{{last_name}} {{first_name}} \r\n\t\t\t({{last_name_yomi}} {{first_name_yomi}})\r\n\t\t\t<button data-visit-id=\"{{visit_id}}\" class=\"start-cashier-button\">会計</button>\r\n\t\t</div>\r\n\t{{/list}}\r\n</div>\r\n"
 
 /***/ },
 /* 11 */

@@ -31,6 +31,7 @@ exports.render = function(dom){
 		var html = tmpl.render({list: list});
 		dom.innerHTML = html;
 		bindStart(dom);
+		bindReload(dom);
 	});
 };
 
@@ -50,5 +51,11 @@ function bindStart(dom){
 			});
 		});
 	}
+}
+
+function bindReload(dom){
+	dom.querySelector(".cmd-reload").addEventListener("click", function(){
+		exports.render(dom);
+	});
 }
 
