@@ -4,6 +4,7 @@ var tmpl = hogan.compile(tmplSrc);
 var kanjidate = require("kanjidate");
 var moment = require("moment");
 var service = require("myclinic-service-api");
+var Receipt = require("./receipt.js");
 var Start = require("./wqueue.js");
 
 function calcAge(birthday){
@@ -52,10 +53,10 @@ exports.render = function(dom, sess){
 	} else {
 		data.seikyuu = true;
 	}
-	console.log(data);
 	dom.innerHTML = tmpl.render(data);
 	bindDone(dom, sess);
-	bindFinish(dom);
+	bindPrev(dom, sess);
+	bindCancel(dom);
 };
 
 function bindDone(dom, sess){
@@ -71,7 +72,13 @@ function bindDone(dom, sess){
 	});
 }
 
-function bindFinish(dom){
+function bindPrev(dom, sess){
+	dom.querySelector(".cmd-prev").addEventListener("click", function(){
+		Receipt.render(dom, sess);
+	});
+}
+
+function bindCancel(dom){
 	dom.querySelector(".cmd-cancel").addEventListener("click", function(){
 		Start.render(dom);
 	});

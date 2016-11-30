@@ -2248,7 +2248,7 @@
 /* 12 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"detail\">\r\n<div style=\"font-size:20px;margin:16px 0\">\r\n\t{{#patient}}\r\n\t\t[{{patient_id}}]\r\n\t\t{{last_name}} {{first_name}}\r\n\t{{/patient}}\r\n</div>\r\n<table>\r\n<tbody>\r\n{{#sections}}\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"font-weight:bold\">{{name}}</td>\r\n\t</tr>\r\n\t{{#items}}\r\n\t\t<tr>\r\n\t\t\t<td style=\"width:2em\">&nbsp;</td>\r\n\t\t\t<td width=\"width:12em\">{{label}}</td>\r\n\t\t\t<td style=\"width:7em; text-align:right\">\r\n\t\t\t\t{{tanka}}x{{count}} = {{total}} 点\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t{{/items}}\r\n{{/sections}}\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"text-align:right;border-top:double #999\">\r\n\t\t\t総点 {{total_ten}} 点\r\n\t\t</td>\r\n\t</tr>\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"text-align:right\">\r\n\t\t\t(負担 {{futan_wari}} 割)\r\n\t\t</td>\r\n\t</tr>\r\n</tbody>\r\n</table>\r\n<div style=\"font-size:20px\">\r\n\t請求額： <span mc-name=\"charge-disp\">{{charge}}</span> 円 \r\n\t<button class=\"goto-receipt-button\" style=\"font-size:16px\">次へ</button>\r\n\t<a href=\"javascript:void(0)\" class=\"goto-start-button\" \r\n\t\tstyle=\"color:#666;font-size:16px\">キャンセル</a>\r\n</div>\r\n</div>\r\n"
+	module.exports = "<div class=\"detail\">\r\n<div style=\"font-size:20px;margin:16px 0\">\r\n\t{{#patient}}\r\n\t\t[{{patient_id}}]\r\n\t\t{{last_name}} {{first_name}}\r\n\t{{/patient}}\r\n</div>\r\n<table>\r\n<tbody>\r\n{{#sections}}\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"font-weight:bold\">{{name}}</td>\r\n\t</tr>\r\n\t{{#items}}\r\n\t\t<tr>\r\n\t\t\t<td style=\"width:2em\">&nbsp;</td>\r\n\t\t\t<td width=\"width:12em\">{{label}}</td>\r\n\t\t\t<td style=\"width:7em; text-align:right\">\r\n\t\t\t\t{{tanka}}x{{count}} = {{total}} 点\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t{{/items}}\r\n{{/sections}}\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"text-align:right;border-top:double #999\">\r\n\t\t\t総点 {{total_ten}} 点\r\n\t\t</td>\r\n\t</tr>\r\n\t<tr>\r\n\t\t<td colspan=\"3\" style=\"text-align:right\">\r\n\t\t\t(負担 {{futan_wari}} 割)\r\n\t\t</td>\r\n\t</tr>\r\n</tbody>\r\n</table>\r\n<div style=\"font-size:20px\">\r\n\t請求額： <span mc-name=\"charge-disp\">{{charge}}</span> 円 \r\n\t<button class=\"goto-receipt-button cmd\">次へ</button>\r\n\t<a href=\"javascript:void(0)\" class=\"goto-start-button\" \r\n\t\tstyle=\"color:#666;font-size:16px\">キャンセル</a>\r\n</div>\r\n</div>\r\n"
 
 /***/ },
 /* 13 */
@@ -2552,7 +2552,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"receipt\">\r\n\t<div class=\"preview\"></div>\r\n\t<div>\r\n\t<button class=\"print\" style=\"font-size:16px\">印刷して次へ</button>\r\n\t<button class=\"no-print\" style=\"font-size:16px\">印刷せず次へ</button>\r\n\t<a class=\"goto-detail\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">戻る</a>\r\n\t<a class=\"goto-start\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">キャンセル</a>\r\n\t</div>\r\n\t<div style=\"color:#666;font-size:12px;margin:10px;\">\r\n\t\tプリンター：<span class=\"current-setting-disp\">{{current_printer_setting}}</span>\r\n\t\t<a href=\"javascript:void(0)\" style=\"color:#666\" class=\"select-printer\">プリンター選択</a>\r\n\t\t<a href=\"/printer\" target=\"printer\" style=\"color:#666\">プリンター管理</a>\r\n\t</div>\r\n\t<div class=\"printer-settings\"></div>\r\n</div>\r\n"
+	module.exports = "<div class=\"receipt\">\r\n\t<div class=\"preview\"></div>\r\n\t<div>\r\n\t<button class=\"print cmd\">印刷して次へ</button>\r\n\t<button class=\"no-print cmd\">印刷せず次へ</button>\r\n\t<a class=\"goto-detail\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">戻る</a>\r\n\t<a class=\"goto-start\" href=\"javascript:void(0)\" style=\"font-size:16px;color:#666\">キャンセル</a>\r\n\t</div>\r\n\t<div style=\"color:#666;font-size:12px;margin:10px;\">\r\n\t\tプリンター：<span class=\"current-setting-disp\">{{current_printer_setting}}</span>\r\n\t\t<a href=\"javascript:void(0)\" style=\"color:#666\" class=\"select-printer\">プリンター選択</a>\r\n\t\t<a href=\"/printer\" target=\"printer\" style=\"color:#666\">プリンター管理</a>\r\n\t</div>\r\n\t<div class=\"printer-settings\"></div>\r\n</div>\r\n"
 
 /***/ },
 /* 16 */
@@ -4029,6 +4029,7 @@
 	var kanjidate = __webpack_require__(21);
 	var moment = __webpack_require__(25);
 	var service = __webpack_require__(1);
+	var Receipt = __webpack_require__(14);
 	var Start = __webpack_require__(6);
 
 	function calcAge(birthday){
@@ -4077,10 +4078,10 @@
 		} else {
 			data.seikyuu = true;
 		}
-		console.log(data);
 		dom.innerHTML = tmpl.render(data);
 		bindDone(dom, sess);
-		bindFinish(dom);
+		bindPrev(dom, sess);
+		bindCancel(dom);
 	};
 
 	function bindDone(dom, sess){
@@ -4096,7 +4097,13 @@
 		});
 	}
 
-	function bindFinish(dom){
+	function bindPrev(dom, sess){
+		dom.querySelector(".cmd-prev").addEventListener("click", function(){
+			Receipt.render(dom, sess);
+		});
+	}
+
+	function bindCancel(dom){
 		dom.querySelector(".cmd-cancel").addEventListener("click", function(){
 			Start.render(dom);
 		});
@@ -4108,7 +4115,7 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n\t[{{patient_id}}] {{last_name}} {{first_name}} ({{last_name_yomi}} {{first_name_yomi}})\r\n\t{{birthday_rep}}\r\n\t{{sex_rep}}\r\n</div>\r\n<div>\r\n\t{{#seikyuu}}\r\n\t\t<div>請求額：<b>{{seikyuu_gaku}}円</b></div>\r\n\t{{/seikyuu}}\r\n\t{{#shuusei}}\r\n\t\t<div>請求額： {{seikyuu_gaku}}円</div>\r\n\t\t<div>前回の徴収額： {{prev_payment}}円</div>\r\n\t\t<div>修正額：\r\n\t\t\t{{#tsuika_choushuu}}<b>{{diff_abs}}円</b> 追加徴収{{/tsuika_choushuu}}\r\n\t\t\t{{#no_diff}}（修正なし）{{/no_diff}}\r\n\t\t\t{{#henkin}}<b style=\"color:red\">{{diff_abs}}円</b> 返金{{/henkin}}\r\n\t\t</div>\r\n\t{{/shuusei}}\r\n</div>\r\n<div>\r\n\t<button class=\"done\">終了</button>\r\n\t<a href=\"javascript:void(0)\" class=\"cmd-link cmd-cancel\">キャンセル</a>\r\n</div>\r\n"
+	module.exports = "<div class=\"finish\">\r\n\t<h2>\r\n\t\t{{#seikyuu}}料金徴収{{/seikyuu}}\r\n\t\t{{#tsuika_choushuu}}料金追加徴収{{/tsuika_choushuu}}\r\n\t\t{{#no_diff}}（会計済）{{/no_diff}}\r\n\t\t{{#henkin}}<span class=\"red\">料金返金</span>{{/henkin}}\r\n\t</h2>\r\n\t<div>\r\n\t\t[{{patient_id}}] \r\n\t\t<span class=\"name\">{{last_name}} {{first_name}}</span> \r\n\t\t({{last_name_yomi}} {{first_name_yomi}})\r\n\t\t{{birthday_rep}}\r\n\t\t{{sex_rep}}\r\n\t</div>\r\n\t<div>\r\n\t\t{{#seikyuu}}\r\n\t\t\t<div>請求額：<span class=\"kingaku\">{{seikyuu_gaku}}円</span></div>\r\n\t\t{{/seikyuu}}\r\n\t\t{{#shuusei}}\r\n\t\t\t<div>請求額： {{seikyuu_gaku}}円</div>\r\n\t\t\t<div>前回の徴収額： {{prev_payment}}円</div>\r\n\t\t\t<div>修正額：\r\n\t\t\t\t{{#tsuika_choushuu}}<span class=\"kingaku\">{{diff_abs}}円</span> 追加徴収{{/tsuika_choushuu}}\r\n\t\t\t\t{{#no_diff}}（修正なし）{{/no_diff}}\r\n\t\t\t\t{{#henkin}}<span class=\"kingaku red\">{{diff_abs}}円</span> 返金{{/henkin}}\r\n\t\t\t</div>\r\n\t\t{{/shuusei}}\r\n\t</div>\r\n\t<div>\r\n\t\t<button class=\"done cmd\">終了</button>\r\n\t\t<a href=\"javascript:void(0)\" class=\"cmd-link cmd-prev\">戻る</a>\r\n\t\t<a href=\"javascript:void(0)\" class=\"cmd-link cmd-cancel\">キャンセル</a>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ },
 /* 25 */

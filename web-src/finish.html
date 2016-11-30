@@ -1,23 +1,34 @@
-<div>
-	[{{patient_id}}] {{last_name}} {{first_name}} ({{last_name_yomi}} {{first_name_yomi}})
-	{{birthday_rep}}
-	{{sex_rep}}
-</div>
-<div>
-	{{#seikyuu}}
-		<div>請求額：<b>{{seikyuu_gaku}}円</b></div>
-	{{/seikyuu}}
-	{{#shuusei}}
-		<div>請求額： {{seikyuu_gaku}}円</div>
-		<div>前回の徴収額： {{prev_payment}}円</div>
-		<div>修正額：
-			{{#tsuika_choushuu}}<b>{{diff_abs}}円</b> 追加徴収{{/tsuika_choushuu}}
-			{{#no_diff}}（修正なし）{{/no_diff}}
-			{{#henkin}}<b style="color:red">{{diff_abs}}円</b> 返金{{/henkin}}
-		</div>
-	{{/shuusei}}
-</div>
-<div>
-	<button class="done">終了</button>
-	<a href="javascript:void(0)" class="cmd-link cmd-cancel">キャンセル</a>
+<div class="finish">
+	<h2>
+		{{#seikyuu}}料金徴収{{/seikyuu}}
+		{{#tsuika_choushuu}}料金追加徴収{{/tsuika_choushuu}}
+		{{#no_diff}}（会計済）{{/no_diff}}
+		{{#henkin}}<span class="red">料金返金</span>{{/henkin}}
+	</h2>
+	<div>
+		[{{patient_id}}] 
+		<span class="name">{{last_name}} {{first_name}}</span> 
+		({{last_name_yomi}} {{first_name_yomi}})
+		{{birthday_rep}}
+		{{sex_rep}}
+	</div>
+	<div>
+		{{#seikyuu}}
+			<div>請求額：<span class="kingaku">{{seikyuu_gaku}}円</span></div>
+		{{/seikyuu}}
+		{{#shuusei}}
+			<div>請求額： {{seikyuu_gaku}}円</div>
+			<div>前回の徴収額： {{prev_payment}}円</div>
+			<div>修正額：
+				{{#tsuika_choushuu}}<span class="kingaku">{{diff_abs}}円</span> 追加徴収{{/tsuika_choushuu}}
+				{{#no_diff}}（修正なし）{{/no_diff}}
+				{{#henkin}}<span class="kingaku red">{{diff_abs}}円</span> 返金{{/henkin}}
+			</div>
+		{{/shuusei}}
+	</div>
+	<div>
+		<button class="done cmd">終了</button>
+		<a href="javascript:void(0)" class="cmd-link cmd-prev">戻る</a>
+		<a href="javascript:void(0)" class="cmd-link cmd-cancel">キャンセル</a>
+	</div>
 </div>
