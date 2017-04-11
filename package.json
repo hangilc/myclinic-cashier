@@ -1,6 +1,6 @@
 {
   "name": "myclinic-cashier",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Cashier sub-service for myclinic",
   "main": "index.js",
   "scripts": {
