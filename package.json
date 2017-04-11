@@ -24,7 +24,7 @@
     "moment": "^2.16.0",
     "myclinic-consts": "^1.0.0",
     "myclinic-drawer": "^1.0.4",
-    "myclinic-drawer-forms": "^1.0.7",
+    "myclinic-drawer-forms": "~1.0.8",
     "myclinic-service-api": "^1.0.9",
     "myclinic-util": "^1.0.0",
     "myclinic-web": "^1.0.3",
